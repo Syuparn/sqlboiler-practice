@@ -1,9 +1,14 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
+
+	"github.com/syuparn/sqlboilerpractice/di"
+	"github.com/syuparn/sqlboilerpractice/usecase"
 )
 
 // createCategoryCmd represents the createCategory command
@@ -11,21 +16,32 @@ var createCategoryCmd = &cobra.Command{
 	Use:   "createCategory",
 	Short: "Create a new product category",
 	Long:  `This command creates a new product category.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("createCategory called")
-	},
+	Run:   createCategory,
+}
+
+func createCategory(cmd *cobra.Command, args []string) {
+	name, _ := cmd.Flags().GetString("name")
+	in := &usecase.CreateCategoryInputData{
+		Name: name,
+	}
+
+	c := di.NewContainer()
+	ctx := context.Background()
+	err := c.Invoke(func(p usecase.CreateCategoryInputPort) {
+		_, perr := p.Handle(ctx, in)
+		if perr != nil {
+			fmt.Fprintln(os.Stderr, perr.Error())
+			os.Exit(1)
+		}
+	})
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func init() {
 	rootCmd.AddCommand(createCategoryCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// createCategoryCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// createCategoryCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	createCategoryCmd.Flags().String("name", "", "name of category")
 }
