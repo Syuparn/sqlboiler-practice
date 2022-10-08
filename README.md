@@ -13,4 +13,9 @@ See https://github.com/spf13/cobra-cli/blob/main/README.md for details
 
 ## update ORM schema
 
-(TBD)
+```bash
+# run DB
+$ docker-compose up -d
+# generate SQL Boiler models from DB
+$ go generate
+```
