@@ -1,9 +1,16 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"os"
 
+	"github.com/samber/lo"
 	"github.com/spf13/cobra"
+
+	"github.com/syuparn/sqlboilerpractice/di"
+	"github.com/syuparn/sqlboilerpractice/domain"
+	"github.com/syuparn/sqlboilerpractice/usecase"
 )
 
 // listProductCmd represents the listProduct command
@@ -11,9 +18,29 @@ var listProductCmd = &cobra.Command{
 	Use:   "listProduct",
 	Short: "List products",
 	Long:  `This command lists products.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("listProduct called")
-	},
+	Run:   listProduct,
+}
+
+func listProduct(cmd *cobra.Command, args []string) {
+	in := &usecase.ListProductInputData{}
+
+	c := di.NewContainer()
+	ctx := context.Background()
+	err := c.Invoke(func(p usecase.ListProductInputPort) {
+		out, perr := p.Handle(ctx, in)
+		if perr != nil {
+			fmt.Fprintln(os.Stderr, perr.Error())
+			os.Exit(1)
+		}
+
+		lo.ForEach(out.Products, func(c *domain.Product, _ int) {
+			fmt.Printf("id: %s, name: %s, category_id: %s\n", c.ID, c.Name, c.CategoryID)
+		})
+	})
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func init() {

@@ -21,6 +21,8 @@ func NewContainer() *dig.Container {
 	c.Provide(usecase.NewListCategoryInputPort)
 	c.Provide(usecase.NewDeleteCategoryInputPort)
 	c.Provide(usecase.NewCreateProductInputPort)
+	c.Provide(usecase.NewListProductInputPort)
+	c.Provide(usecase.NewDeleteProductInputPort)
 
 	return c
 }
