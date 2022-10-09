@@ -1,9 +1,14 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
+
+	"github.com/syuparn/sqlboilerpractice/di"
+	"github.com/syuparn/sqlboilerpractice/usecase"
 )
 
 // deleteCategoryCmd represents the deleteCategory command
@@ -11,21 +16,32 @@ var deleteCategoryCmd = &cobra.Command{
 	Use:   "deleteCategory",
 	Short: "Delete the specified product category",
 	Long:  `This command deletes the specified product category.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("deleteCategory called")
-	},
+	Run:   deleteCategory,
+}
+
+func deleteCategory(cmd *cobra.Command, args []string) {
+	id, _ := cmd.Flags().GetString("id")
+	in := &usecase.DeleteCategoryInputData{
+		ID: id,
+	}
+
+	c := di.NewContainer()
+	ctx := context.Background()
+	err := c.Invoke(func(p usecase.DeleteCategoryInputPort) {
+		_, perr := p.Handle(ctx, in)
+		if perr != nil {
+			fmt.Fprintln(os.Stderr, perr.Error())
+			os.Exit(1)
+		}
+	})
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func init() {
 	rootCmd.AddCommand(deleteCategoryCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// deleteCategoryCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// deleteCategoryCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	deleteCategoryCmd.Flags().String("id", "", "id of category")
 }

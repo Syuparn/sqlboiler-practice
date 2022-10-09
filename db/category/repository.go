@@ -3,7 +3,6 @@ package category
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 
 	"github.com/samber/lo"
@@ -52,6 +51,29 @@ func (r *categoryRepository) List(ctx context.Context) ([]*domain.Category, erro
 	}), nil
 }
 
+func (r *categoryRepository) Get(ctx context.Context, id domain.CategoryID) (*domain.Category, error) {
+	category, err := models.Categories(
+		models.CategoryWhere.ID.EQ(string(id)),
+	).One(ctx, r.db)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get category (id: %s): %w", id, err)
+	}
+
+	return &domain.Category{
+		ID:   domain.CategoryID(category.ID),
+		Name: domain.CategoryName(category.Name),
+	}, nil
+}
+
 func (r *categoryRepository) Delete(ctx context.Context, category *domain.Category) error {
-	return errors.New("err")
+	c := &models.Category{
+		ID:   string(category.ID),
+		Name: string(category.Name),
+	}
+
+	if _, err := c.Delete(ctx, r.db); err != nil {
+		return fmt.Errorf("failed to delete category: %w", err)
+	}
+
+	return nil
 }

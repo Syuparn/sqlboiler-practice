@@ -32,6 +32,7 @@ func NewCategory(name CategoryName) (*Category, error) {
 
 type CategoryRepository interface {
 	Register(context.Context, *Category) error
+	Get(context.Context, CategoryID) (*Category, error)
 	List(context.Context) ([]*Category, error)
 	Delete(context.Context, *Category) error
 }

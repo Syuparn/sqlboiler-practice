@@ -103,3 +103,84 @@ func TestListCategory(t *testing.T) {
 		})
 	}
 }
+
+func TestGetCategory(t *testing.T) {
+	columns := []string{"id", "name"}
+
+	tests := []struct {
+		name     string
+		id       domain.CategoryID
+		query    string
+		mockRow  []driver.Value
+		expected *domain.Category
+	}{
+		{
+			"get a category",
+			"0123456789ABCDEFGHJKMNPQRS",
+			"SELECT `category`.* FROM `category` WHERE (`category`.`id` = ?) LIMIT 1",
+			[]driver.Value{"0123456789ABCDEFGHJKMNPQRS", "stationary"},
+			&domain.Category{
+				ID:   "0123456789ABCDEFGHJKMNPQRS",
+				Name: "stationary",
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// mock
+			db, mock, teardown := prepareDB(t)
+			defer teardown()
+			rows := sqlmock.NewRows(columns).AddRow(tt.mockRow...)
+			mock.ExpectQuery(regexp.QuoteMeta(tt.query)).
+				WillReturnRows(rows)
+
+			// run
+			r := NewCategoryRepository(db)
+			actual, err := r.Get(context.TODO(), tt.id)
+
+			// assert
+			require.NoError(t, err)
+			require.Equal(t, tt.expected, actual)
+		})
+	}
+}
+
+func TestDeleteCategory(t *testing.T) {
+	tests := []struct {
+		name          string
+		category      *domain.Category
+		expectedQuery string
+		expectedArgs  []driver.Value
+	}{
+		{
+			"delete a category",
+			&domain.Category{
+				ID:   "0123456789ABCDEFGHJKMNPQRS",
+				Name: "stationary",
+			},
+			"DELETE FROM `category` WHERE `id`=?",
+			[]driver.Value{
+				"0123456789ABCDEFGHJKMNPQRS",
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// mock
+			db, mock, teardown := prepareDB(t)
+			defer teardown()
+			mock.ExpectExec(regexp.QuoteMeta(tt.expectedQuery)).
+				WithArgs(tt.expectedArgs...).
+				WillReturnResult(sqlmock.NewResult(0, 1))
+
+			// run
+			r := NewCategoryRepository(db)
+			err := r.Delete(context.TODO(), tt.category)
+
+			// assert
+			require.NoError(t, err)
+		})
+	}
+}
