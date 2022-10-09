@@ -10,5 +10,5 @@ type CategoryStatistics struct {
 }
 
 type SummarizeProductService interface {
-	Summarize(context.Context) ([]*CategoryStatistics, error)
+	Summarize(context.Context, *Category) (*CategoryStatistics, error)
 }
