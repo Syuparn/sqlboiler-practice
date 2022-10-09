@@ -16,6 +16,7 @@ func NewContainer() *dig.Container {
 	c.Provide(category.NewCategoryRepository)
 
 	c.Provide(usecase.NewCreateCategoryInputPort)
+	c.Provide(usecase.NewListCategoryInputPort)
 
 	return c
 }

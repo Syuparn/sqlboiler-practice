@@ -14,4 +14,9 @@ func TestNewContainer(t *testing.T) {
 		require.NotNil(t, i)
 	})
 	require.NoError(t, err)
+
+	err = c.Invoke(func(i usecase.ListCategoryInputPort) {
+		require.NotNil(t, i)
+	})
+	require.NoError(t, err)
 }
