@@ -1,9 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/syuparn/sqlboilerpractice/di"
+	"github.com/syuparn/sqlboilerpractice/usecase"
 )
 
 // createProductCmd represents the createProduct command
@@ -11,21 +15,36 @@ var createProductCmd = &cobra.Command{
 	Use:   "createProduct",
 	Short: "Create a new product",
 	Long:  `This command creates a new product.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("createProduct called")
-	},
+	Run:   createProduct,
+}
+
+func createProduct(cmd *cobra.Command, args []string) {
+	name, _ := cmd.Flags().GetString("name")
+	categoryID, _ := cmd.Flags().GetString("categoryid")
+	in := &usecase.CreateProductInputData{
+		Name:       name,
+		CategoryID: categoryID,
+	}
+
+	c := di.NewContainer()
+	ctx := context.Background()
+	err := c.Invoke(func(p usecase.CreateProductInputPort) {
+		_, perr := p.Handle(ctx, in)
+		if perr != nil {
+			fmt.Fprintln(os.Stderr, perr.Error())
+			os.Exit(1)
+		}
+	})
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func init() {
 	rootCmd.AddCommand(createProductCmd)
 
-	// Here you will define your flags and configuration settings.
+	createProductCmd.Flags().String("name", "", "name of product")
+	createProductCmd.Flags().String("categoryid", "", "product category id of product")
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// createProductCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// createProductCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

@@ -14,14 +14,14 @@ type Category struct {
 type CategoryID string
 type CategoryName string
 
-const nameLenLimit = 40
+const categoryNameLenLimit = 40
 
 func NewCategory(name CategoryName) (*Category, error) {
 	if name == "" {
 		return nil, errors.New("name must not be nil")
 	}
-	if len(name) > nameLenLimit {
-		return nil, fmt.Errorf("name is too long (%d > %d)", len(name), nameLenLimit)
+	if len(name) > categoryNameLenLimit {
+		return nil, fmt.Errorf("name is too long (%d > %d)", len(name), categoryNameLenLimit)
 	}
 
 	return &Category{

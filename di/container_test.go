@@ -24,4 +24,9 @@ func TestNewContainer(t *testing.T) {
 		require.NotNil(t, i)
 	})
 	require.NoError(t, err)
+
+	err = c.Invoke(func(i usecase.CreateProductInputPort) {
+		require.NotNil(t, i)
+	})
+	require.NoError(t, err)
 }
