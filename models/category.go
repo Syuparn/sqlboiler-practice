@@ -1216,7 +1216,3 @@ func CategoryExists(ctx context.Context, exec boil.ContextExecutor, iD string) (
 
 	return exists, nil
 }
-
-func CategoryHello() {
-	fmt.Println("Hello Category")
-}

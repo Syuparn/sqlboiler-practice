@@ -1,0 +1,29 @@
+wipe = true
+output = "simulator_models"
+# disable default templates
+no-auto-timestamps = true
+no-back-referencing = true
+no-context = true
+no-driver-templates = true
+no-hooks = true
+no-rows-affected = true
+
+templates = [
+  "templates",
+]
+
+[imports.all]
+  standard = []
+  third_party = [
+    'simsql "github.com/dolthub/go-mysql-server/sql"',
+    '"github.com/dolthub/go-mysql-server/memory"',
+    '"github.com/volatiletech/null/v8"',
+  ]
+
+[mysql]
+  dbname  = "practice"
+  host    = "localhost"
+  port    = 3306
+  user    = "root"
+  pass    = ""
+  sslmode = "false"
