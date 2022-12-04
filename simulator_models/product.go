@@ -16,6 +16,7 @@ func CreateDummyProductTable(db *memory.Database) *memory.Table {
 	table := memory.NewTable(tableName, simsql.NewPrimaryKeySchema(simsql.Schema{
 		{Name: "id", Type: simsql.Text, Nullable: false, Source: tableName, PrimaryKey: true},
 		{Name: "name", Type: simsql.Text, Nullable: false, Source: tableName, PrimaryKey: false},
+		{Name: "price", Type: simsql.Int64, Nullable: false, Source: tableName, PrimaryKey: false},
 		{Name: "category_id", Type: simsql.Text, Nullable: true, Source: tableName, PrimaryKey: false},
 	}), db.GetForeignKeyCollection())
 

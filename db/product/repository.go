@@ -29,6 +29,7 @@ func (r *productRepository) Register(ctx context.Context, product *domain.Produc
 	c := &models.Product{
 		ID:         string(product.ID),
 		Name:       string(product.Name),
+		Price:      int(product.Price),
 		CategoryID: null.StringFrom(string(product.CategoryID)),
 	}
 
@@ -49,6 +50,7 @@ func (r *productRepository) List(ctx context.Context) ([]*domain.Product, error)
 		return &domain.Product{
 			ID:         domain.ProductID(c.ID),
 			Name:       domain.ProductName(c.Name),
+			Price:      domain.ProducePriceYen(c.Price),
 			CategoryID: domain.CategoryID(c.CategoryID.String),
 		}
 	}), nil
@@ -65,6 +67,7 @@ func (r *productRepository) Get(ctx context.Context, id domain.ProductID) (*doma
 	return &domain.Product{
 		ID:         domain.ProductID(product.ID),
 		Name:       domain.ProductName(product.Name),
+		Price:      domain.ProducePriceYen(product.Price),
 		CategoryID: domain.CategoryID(product.CategoryID.String),
 	}, nil
 }

@@ -25,11 +25,12 @@ func TestRegisterProduct(t *testing.T) {
 			&domain.Product{
 				ID:         "0123456789ABCDEFGHJKMNPQRS",
 				Name:       "stationary",
+				Price:      100,
 				CategoryID: "1123456789ABCDEFGHJKMNPQRS",
 			},
-			"INSERT INTO `product` (`id`,`name`,`category_id`) VALUES (?,?,?)",
+			"INSERT INTO `product` (`id`,`name`,`price`,`category_id`) VALUES (?,?,?,?)",
 			[]driver.Value{
-				"0123456789ABCDEFGHJKMNPQRS", "stationary", "1123456789ABCDEFGHJKMNPQRS",
+				"0123456789ABCDEFGHJKMNPQRS", "stationary", 100, "1123456789ABCDEFGHJKMNPQRS",
 			},
 		},
 	}
@@ -54,7 +55,7 @@ func TestRegisterProduct(t *testing.T) {
 }
 
 func TestListProduct(t *testing.T) {
-	columns := []string{"id", "name", "category_id"}
+	columns := []string{"id", "name", "price", "category_id"}
 
 	tests := []struct {
 		name     string
@@ -66,18 +67,20 @@ func TestListProduct(t *testing.T) {
 			"list all products",
 			"SELECT `product`.* FROM `product`",
 			[][]driver.Value{
-				{"0123456789ABCDEFGHJKMNPQRS", "pencil", "C123456789ABCDEFGHJKMNPQRS"},
-				{"1123456789ABCDEFGHJKMNPQRS", "novel", "C223456789ABCDEFGHJKMNPQRS"},
+				{"0123456789ABCDEFGHJKMNPQRS", "pencil", 100, "C123456789ABCDEFGHJKMNPQRS"},
+				{"1123456789ABCDEFGHJKMNPQRS", "novel", 1200, "C223456789ABCDEFGHJKMNPQRS"},
 			},
 			[]*domain.Product{
 				{
 					ID:         "0123456789ABCDEFGHJKMNPQRS",
 					Name:       "pencil",
+					Price:      100,
 					CategoryID: "C123456789ABCDEFGHJKMNPQRS",
 				},
 				{
 					ID:         "1123456789ABCDEFGHJKMNPQRS",
 					Name:       "novel",
+					Price:      1200,
 					CategoryID: "C223456789ABCDEFGHJKMNPQRS",
 				},
 			},
@@ -108,7 +111,7 @@ func TestListProduct(t *testing.T) {
 }
 
 func TestGetProduct(t *testing.T) {
-	columns := []string{"id", "name", "category_id"}
+	columns := []string{"id", "name", "price", "category_id"}
 
 	tests := []struct {
 		name     string
@@ -121,10 +124,11 @@ func TestGetProduct(t *testing.T) {
 			"get a product",
 			"0123456789ABCDEFGHJKMNPQRS",
 			"SELECT `product`.* FROM `product` WHERE (`product`.`id` = ?) LIMIT 1",
-			[]driver.Value{"0123456789ABCDEFGHJKMNPQRS", "pencil", "C123456789ABCDEFGHJKMNPQRS"},
+			[]driver.Value{"0123456789ABCDEFGHJKMNPQRS", "pencil", 100, "C123456789ABCDEFGHJKMNPQRS"},
 			&domain.Product{
 				ID:         "0123456789ABCDEFGHJKMNPQRS",
 				Name:       "pencil",
+				Price:      100,
 				CategoryID: "C123456789ABCDEFGHJKMNPQRS",
 			},
 		},
@@ -162,6 +166,7 @@ func TestDeleteProduct(t *testing.T) {
 			&domain.Product{
 				ID:         "0123456789ABCDEFGHJKMNPQRS",
 				Name:       "pencil",
+				Price:      100,
 				CategoryID: "C123456789ABCDEFGHJKMNPQRS",
 			},
 			"DELETE FROM `product` WHERE `id`=?",

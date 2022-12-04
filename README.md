@@ -12,32 +12,32 @@ $ ./sqlboilerpractice createCategory --name stationary
 $ ./sqlboilerpractice createCategory --name book
 
 $ ./sqlboilerpractice listCategory
-id: 01GEXZYGXKGFKX87A9TYKE407A, name: book
-id: 01GEXZXT694DD0TNTR7FBGQ0KE, name: stationary
+id: 01GKDKKTHS0TE0SQXZ3E93W6QN, name: book
+id: 01GKDKKP6HH4794GVE1EPHKJ8R, name: stationary
 
-$ ./sqlboilerpractice deleteCategory --id 01GEXZYGXKGFKX87A9TYKE407A
+$ ./sqlboilerpractice deleteCategory --id 01GKDKKTHS0TE0SQXZ3E93W6QN
 
 $ ./sqlboilerpractice listCategory
-id: 01GEXZXT694DD0TNTR7FBGQ0KE, name: stationary
+id: 01GKDKKP6HH4794GVE1EPHKJ8R, name: stationary
 
 # control products
-$ ./sqlboilerpractice createProduct --name pencil --categoryid 01GEXZXT694DD0TNTR7FBGQ0KE
-$ ./sqlboilerpractice createProduct --name eraser --categoryid 01GEXZXT694DD0TNTR7FBGQ0KE
-$ ./sqlboilerpractice createProduct --name stapler --categoryid 01GEXZXT694DD0TNTR7FBGQ0KE
+$ ./sqlboilerpractice createProduct --name pencil --price 100 --categoryid 01GKDKKP6HH4794GVE1EPHKJ8R
+$ ./sqlboilerpractice createProduct --name eraser --price 70 --categoryid 01GKDKKP6HH4794GVE1EPHKJ8R
+$ ./sqlboilerpractice createProduct --name stapler --price 300 --categoryid 01GKDKKP6HH4794GVE1EPHKJ8R
 
 $ ./sqlboilerpractice listProduct
-id: 01GEY00VMPK9YSR68SP2JBPEE0, name: pencil, category_id: 01GEXZXT694DD0TNTR7FBGQ0KE
-id: 01GEY0140PWB68FX4CQFZBVTFF, name: eraser, category_id: 01GEXZXT694DD0TNTR7FBGQ0KE
-id: 01GEY01BCRA89AKXM6P4W14W1D, name: stapler, category_id: 01GEXZXT694DD0TNTR7FBGQ0KE
+id: 01GKDM2D8WE9RDKB17NAJWR3H9, name: pencil, price: 100, category_id: 01GKDKKP6HH4794GVE1EPHKJ8R
+id: 01GKDM2J5NKKNK1XSTPPCAXKBG, name: eraser, price: 70, category_id: 01GKDKKP6HH4794GVE1EPHKJ8R
+id: 01GKDM2QJCEPQ50B40Z312NTVG, name: stapler, price: 300, category_id: 01GKDKKP6HH4794GVE1EPHKJ8R
 
-$ ./sqlboilerpractice deleteProduct --id 01GEY01BCRA89AKXM6P4W14W1D
+$ ./sqlboilerpractice deleteProduct --id 01GKDM2QJCEPQ50B40Z312NTVG
 
 $ ./sqlboilerpractice listProduct
-id: 01GEY00VMPK9YSR68SP2JBPEE0, name: pencil, category_id: 01GEXZXT694DD0TNTR7FBGQ0KE
-id: 01GEY0140PWB68FX4CQFZBVTFF, name: eraser, category_id: 01GEXZXT694DD0TNTR7FBGQ0KE
+id: 01GKDM2D8WE9RDKB17NAJWR3H9, name: pencil, price: 100, category_id: 01GKDKKP6HH4794GVE1EPHKJ8R
+id: 01GKDM2J5NKKNK1XSTPPCAXKBG, name: eraser, price: 70, category_id: 01GKDKKP6HH4794GVE1EPHKJ8R
 
-$ ./sqlboilerpractice countProduct --categoryid 01GEXZXT694DD0TNTR7FBGQ0KE
-category_id: 01GEXZXT694DD0TNTR7FBGQ0KE, category_name: stationary, num_products: 2
+$ ./sqlboilerpractice countProduct --categoryid 01GKDKKP6HH4794GVE1EPHKJ8R
+category_id: 01GKDKKP6HH4794GVE1EPHKJ8R, category_name: stationary, num_products: 2
 ```
 
 # for developer

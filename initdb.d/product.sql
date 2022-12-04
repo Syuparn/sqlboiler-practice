@@ -6,6 +6,7 @@ CREATE TABLE product
 (
     id          VARCHAR(26) PRIMARY KEY,
     name        VARCHAR(40) NOT NULL UNIQUE,
+    price       INT NOT NULL,
     category_id VARCHAR(26),
     CONSTRAINT fk_category_id
     FOREIGN KEY (category_id) 

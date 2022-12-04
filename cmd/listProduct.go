@@ -34,7 +34,7 @@ func listProduct(cmd *cobra.Command, args []string) {
 		}
 
 		lo.ForEach(out.Products, func(c *domain.Product, _ int) {
-			fmt.Printf("id: %s, name: %s, category_id: %s\n", c.ID, c.Name, c.CategoryID)
+			fmt.Printf("id: %s, name: %s, price: %d, category_id: %s\n", c.ID, c.Name, c.Price, c.CategoryID)
 		})
 	})
 

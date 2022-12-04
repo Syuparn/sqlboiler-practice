@@ -20,9 +20,11 @@ var createProductCmd = &cobra.Command{
 
 func createProduct(cmd *cobra.Command, args []string) {
 	name, _ := cmd.Flags().GetString("name")
+	price, _ := cmd.Flags().GetInt64("price")
 	categoryID, _ := cmd.Flags().GetString("categoryid")
 	in := &usecase.CreateProductInputData{
 		Name:       name,
+		Price:      price,
 		CategoryID: categoryID,
 	}
 
@@ -45,6 +47,6 @@ func init() {
 	rootCmd.AddCommand(createProductCmd)
 
 	createProductCmd.Flags().String("name", "", "name of product")
+	createProductCmd.Flags().Int64("price", 0, "price of product")
 	createProductCmd.Flags().String("categoryid", "", "product category id of product")
-
 }

@@ -9,6 +9,7 @@ import (
 
 type CreateProductInputData struct {
 	Name       string
+	Price      int64
 	CategoryID string
 }
 
@@ -34,7 +35,11 @@ func (i *createProductInteractor) Handle(
 	ctx context.Context,
 	in *CreateProductInputData,
 ) (*CreateProductOutputData, error) {
-	category, err := domain.NewProduct(domain.ProductName(in.Name), domain.CategoryID(in.CategoryID))
+	category, err := domain.NewProduct(
+		domain.ProductName(in.Name),
+		domain.ProducePriceYen(in.Price),
+		domain.CategoryID(in.CategoryID),
+	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create category: %w", err)
 	}

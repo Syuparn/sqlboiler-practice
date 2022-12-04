@@ -728,7 +728,7 @@ func testProductsSelect(t *testing.T) {
 }
 
 var (
-	productDBTypes = map[string]string{`ID`: `varchar`, `Name`: `varchar`, `CategoryID`: `varchar`}
+	productDBTypes = map[string]string{`ID`: `varchar`, `Name`: `varchar`, `Price`: `int`, `CategoryID`: `varchar`}
 	_              = bytes.MinRead
 )
 

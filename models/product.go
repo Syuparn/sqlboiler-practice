@@ -26,6 +26,7 @@ import (
 type Product struct {
 	ID         string      `boil:"id" json:"id" toml:"id" yaml:"id"`
 	Name       string      `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Price      int         `boil:"price" json:"price" toml:"price" yaml:"price"`
 	CategoryID null.String `boil:"category_id" json:"category_id,omitempty" toml:"category_id" yaml:"category_id,omitempty"`
 
 	R *productR `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -35,24 +36,51 @@ type Product struct {
 var ProductColumns = struct {
 	ID         string
 	Name       string
+	Price      string
 	CategoryID string
 }{
 	ID:         "id",
 	Name:       "name",
+	Price:      "price",
 	CategoryID: "category_id",
 }
 
 var ProductTableColumns = struct {
 	ID         string
 	Name       string
+	Price      string
 	CategoryID string
 }{
 	ID:         "product.id",
 	Name:       "product.name",
+	Price:      "product.price",
 	CategoryID: "product.category_id",
 }
 
 // Generated where
+
+type whereHelperint struct{ field string }
+
+func (w whereHelperint) EQ(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
+func (w whereHelperint) NEQ(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
+func (w whereHelperint) LT(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
+func (w whereHelperint) LTE(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
+func (w whereHelperint) GT(x int) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
+func (w whereHelperint) GTE(x int) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
+func (w whereHelperint) IN(slice []int) qm.QueryMod {
+	values := make([]interface{}, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
+}
+func (w whereHelperint) NIN(slice []int) qm.QueryMod {
+	values := make([]interface{}, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
+}
 
 type whereHelpernull_String struct{ field string }
 
@@ -95,10 +123,12 @@ func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereI
 var ProductWhere = struct {
 	ID         whereHelperstring
 	Name       whereHelperstring
+	Price      whereHelperint
 	CategoryID whereHelpernull_String
 }{
 	ID:         whereHelperstring{field: "`product`.`id`"},
 	Name:       whereHelperstring{field: "`product`.`name`"},
+	Price:      whereHelperint{field: "`product`.`price`"},
 	CategoryID: whereHelpernull_String{field: "`product`.`category_id`"},
 }
 
@@ -130,8 +160,8 @@ func (r *productR) GetCategory() *Category {
 type productL struct{}
 
 var (
-	productAllColumns            = []string{"id", "name", "category_id"}
-	productColumnsWithoutDefault = []string{"id", "name", "category_id"}
+	productAllColumns            = []string{"id", "name", "price", "category_id"}
+	productColumnsWithoutDefault = []string{"id", "name", "price", "category_id"}
 	productColumnsWithDefault    = []string{}
 	productPrimaryKeyColumns     = []string{"id"}
 	productGeneratedColumns      = []string{}
