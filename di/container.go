@@ -3,6 +3,7 @@ package di
 import (
 	"go.uber.org/dig"
 
+	"github.com/syuparn/sqlboilerpractice/config"
 	"github.com/syuparn/sqlboilerpractice/db"
 	"github.com/syuparn/sqlboilerpractice/db/category"
 	"github.com/syuparn/sqlboilerpractice/db/product"
@@ -11,6 +12,8 @@ import (
 
 func NewContainer() *dig.Container {
 	c := dig.New()
+
+	c.Provide(config.NewConfig)
 
 	c.Provide(db.NewClient)
 

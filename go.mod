@@ -3,7 +3,7 @@ module github.com/syuparn/sqlboilerpractice
 go 1.19
 
 require (
-	github.com/DATA-DOG/go-sqlmock v1.4.1
+	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/dolthub/go-mysql-server v0.14.0
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-sql-driver/mysql v1.6.0
@@ -26,11 +26,15 @@ require (
 	github.com/dolthub/vitess v0.0.0-20221031111135-9aad77e7b39f // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-kit/kit v0.10.0 // indirect
+	github.com/gocraft/dbr/v2 v2.7.2 // indirect
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/flatbuffers v2.0.6+incompatible // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
+	github.com/lestrrat-go/strftime v1.0.4 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mitchellh/hashstructure v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
@@ -50,6 +54,7 @@ require (
 	go.opentelemetry.io/otel v1.7.0 // indirect
 	go.opentelemetry.io/otel/trace v1.7.0 // indirect
 	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
+	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.2.0 // indirect
