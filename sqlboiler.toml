@@ -1,3 +1,5 @@
+wipe = true
+
 [mysql]
   dbname  = "practice"
   host    = "localhost"

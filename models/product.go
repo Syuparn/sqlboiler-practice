@@ -1199,3 +1199,7 @@ func ProductExists(ctx context.Context, exec boil.ContextExecutor, iD string) (b
 
 	return exists, nil
 }
+
+func ProductHello() {
+	fmt.Println("Hello Product")
+}
